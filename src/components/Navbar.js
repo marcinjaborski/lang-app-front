@@ -1,23 +1,26 @@
 import MenuButton from "./MenuButton";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouse} from "@fortawesome/free-solid-svg-icons";
+import {faFileLines} from "@fortawesome/free-solid-svg-icons";
+import {faFileCirclePlus} from "@fortawesome/free-solid-svg-icons";
+import {faBrain} from "@fortawesome/free-solid-svg-icons";
+import {faCog} from "@fortawesome/free-solid-svg-icons";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
-    return (
-        <nav className="navbar">
-            <div className="topButtons">
-                <MenuButton/>
-                <MenuButton/>
-                <MenuButton/>
-                <MenuButton/>
-                <FontAwesomeIcon icon={faHouse} />
-            </div>
-            <div className="bottomButtons">
-                <MenuButton/>
-                <MenuButton/>
-            </div>
-        </nav>
-    )
+  return (
+    <nav className="navbar">
+      <div className="topButtons">
+        <MenuButton link="/" icon={faHouse}/>
+        <MenuButton link="/" icon={faFileLines}/>
+        <MenuButton link="/" icon={faFileCirclePlus}/>
+        <MenuButton link="/" icon={faBrain}/>
+      </div>
+      <div className="bottomButtons">
+        <MenuButton link="/" icon={faCog}/>
+        <MenuButton link="/" icon={faUser}/>
+      </div>
+    </nav>
+  )
 }
 
 export default Navbar;
