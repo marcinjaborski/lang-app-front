@@ -1,34 +1,46 @@
 {
-  "notes": [{
-    "title": "Lesson 1",
-    "words": 100,
-    "progress": 69,
-    "excerpt": "Proin pulvinar gravida mi, sit amet aliquam eros imperdiet ac. Vivamus aliquam nisl vitae enim."
-    }, {
-    "title": "Lesson 2",
-    "words": 57,
-    "progress": 12,
-    "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rhoncus leo in justo lobortis, quis."
-    }, {
-    "title": "Lesson 3",
-    "words": 89,
-    "progress": 3,
-    "excerpt": "Suspendisse facilisis, mauris ac hendrerit vestibulum, nisl mi venenatis elit, in malesuada tortor diam elementum. Suspendisse facilisis, mauris"
-    }, {
-    "title": "Lesson 4",
-    "words": 80,
-    "progress": 100,
-    "excerpt": "Donec dignissim velit sollicitudin, pulvinar nisl vel, rhoncus odio. Fusce varius nisi ut neque fringilla."
-    }, {
-    "title": "Lesson 5",
-    "words": 51,
-    "progress": 0,
-    "excerpt": "Etiam sit amet rhoncus nulla. Phasellus pretium semper imperdiet. Quisque sodales, orci a consequat maximus."
-    }, {
-    "title": "Lesson 6",
-    "words": 84,
-    "progress": 34,
-    "excerpt": "Etiam commodo, odio at commodo tempus, purus nisl vulputate tellus, varius sodales quam tortor tincidunt."
+  "notes": [
+    {
+      "id": 1,
+      "title": "Lesson 1",
+      "words": 100,
+      "progress": 69,
+      "excerpt": "Proin pulvinar gravida mi, sit amet aliquam eros imperdiet ac. Vivamus aliquam nisl vitae enim."
+    },
+    {
+      "id": 2,
+      "title": "Lesson 2",
+      "words": 57,
+      "progress": 12,
+      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rhoncus leo in justo lobortis, quis."
+    },
+    {
+      "id": 3,
+      "title": "Lesson 3",
+      "words": 89,
+      "progress": 3,
+      "excerpt": "Suspendisse facilisis, mauris ac hendrerit vestibulum, nisl mi venenatis elit, in malesuada tortor diam elementum. Suspendisse facilisis, mauris"
+    },
+    {
+      "id": 4,
+      "title": "Lesson 4",
+      "words": 80,
+      "progress": 100,
+      "excerpt": "Donec dignissim velit sollicitudin, pulvinar nisl vel, rhoncus odio. Fusce varius nisi ut neque fringilla."
+    },
+    {
+      "id": 5,
+      "title": "Lesson 5",
+      "words": 51,
+      "progress": 0,
+      "excerpt": "Etiam sit amet rhoncus nulla. Phasellus pretium semper imperdiet. Quisque sodales, orci a consequat maximus."
+    },
+    {
+      "id": 6,
+      "title": "Lesson 6",
+      "words": 84,
+      "progress": 34,
+      "excerpt": "Etiam commodo, odio at commodo tempus, purus nisl vulputate tellus, varius sodales quam tortor tincidunt."
     }
   ]
 }
