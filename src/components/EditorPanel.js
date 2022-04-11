@@ -1,27 +1,29 @@
-import { useState } from "react";
-import { Slate, Editable, withReact } from "slate-react";
+import React, { useMemo } from "react";
 import { createEditor } from "slate";
-import { useParams } from "react-router-dom";
-import useFetch from "../useFetch";
+import { Slate, Editable, withReact } from "slate-react";
+import { withHistory } from "slate-history";
 
-const EditorPanel = () => {
-  const { id = "" } = useParams();
-  const { data: note, isPending } = useFetch(`http://localhost:5000/notes/${id}`);
-  const [editor] = useState(() => withReact(createEditor()));
-  const initialValue = [
-    {
-      type: "paragraph",
-      children: [{ text: isPending ? "" : note.excerpt }],
-    },
-  ];
+// This is a modified example from https://github.com/ianstormtaylor/slate/blob/main/site/examples/plaintext.tsx
+// if I paste many lines the panel itself becomes scrollable, but I'd like it to extend so that the page is scrollable
+
+const PlainTextExample = () => {
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   return (
-    <div className="editorPanel">
-      <div className="editorTitle">{isPending ? "" : note.title}</div>
-      <Slate editor={editor} value={initialValue}>
-        <Editable />
-      </Slate>
+    <div className="editorWindow">
+      <div className="editorPanel">
+        <Slate editor={editor} value={initialValue}>
+          <Editable placeholder="Start typing ... " />
+        </Slate>
+      </div>
     </div>
   );
 };
 
-export default EditorPanel;
+const initialValue = [
+  {
+    type: "paragraph",
+    children: [{ text: "" }],
+  },
+];
+
+export default PlainTextExample;

@@ -178,9 +178,17 @@ body {
   font-size: 30px;
 }
 
+.editorWindow {
+  background-color: #dddddd;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
 .editorPanel {
-  width: 50%;
+  width: 60%;
   margin: auto;
   height: 100vh;
   overflow-y: auto;
+  background-color: #f0f0f0;
+  padding: 12px;
 }
