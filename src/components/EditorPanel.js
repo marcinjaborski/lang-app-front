@@ -3,17 +3,27 @@ import isHotkey from "is-hotkey";
 import { Editable, withReact, useSlate, Slate } from "slate-react";
 import { Editor, Transforms, createEditor, Element as SlateElement } from "slate";
 import { withHistory } from "slate-history";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBold, faUnderline, faItalic, faCode } from "@fortawesome/free-solid-svg-icons";
 
-const Button = (props) => {
-  <div {...props}>{props.children}</div>;
+export const Button = ({ active, onClick, children }) => {
+  return (
+    <span className={active ? "editorButtonActive" : "editorButtonInactive"} onClick={onClick}>
+      {children}
+    </span>
+  );
 };
 
-const Icon = (props) => {
-  <div {...props}>{props.children}</div>;
+export const Toolbar = (props) => {
+  return <div>{props.children}</div>;
 };
 
-const Toolbar = (props) => {
-  <div {...props}>{props.children}</div>;
+export const Icon = ({ icon }) => {
+  return (
+    <span className="editorIcon">
+      <FontAwesomeIcon icon={icon}></FontAwesomeIcon>
+    </span>
+  );
 };
 
 const HOTKEYS = {
@@ -35,11 +45,12 @@ const RichTextExample = () => {
     <div className="editorPanel">
       <Slate editor={editor} value={initialValue}>
         <Toolbar>
-          <MarkButton format="bold" icon="format_bold" />
-          <MarkButton format="italic" icon="format_italic" />
-          <MarkButton format="underline" icon="format_underlined" />
-          <MarkButton format="code" icon="code" />
-          <BlockButton format="heading-one" icon="looks_one" />
+          <MarkButton format="bold" icon={faBold} />
+          <MarkButton format="italic" icon={faItalic} />
+          <MarkButton format="underline" icon={faUnderline} />
+          <MarkButton format="code" icon={faCode} />
+          {/* TODO - finish blockbuttons */}
+          {/* <BlockButton format="heading-one" icon="looks_one" />
           <BlockButton format="heading-two" icon="looks_two" />
           <BlockButton format="block-quote" icon="format_quote" />
           <BlockButton format="numbered-list" icon="format_list_numbered" />
@@ -47,7 +58,7 @@ const RichTextExample = () => {
           <BlockButton format="left" icon="format_align_left" />
           <BlockButton format="center" icon="format_align_center" />
           <BlockButton format="right" icon="format_align_right" />
-          <BlockButton format="justify" icon="format_align_justify" />
+          <BlockButton format="justify" icon="format_align_justify" /> */}
         </Toolbar>
         <Editable
           renderElement={renderElement}
@@ -217,12 +228,12 @@ const MarkButton = ({ format, icon }) => {
   return (
     <Button
       active={isMarkActive(editor, format)}
-      onMouseDown={(event) => {
+      onClick={(event) => {
         event.preventDefault();
         toggleMark(editor, format);
       }}
     >
-      <Icon>{icon}</Icon>
+      <Icon icon={icon}></Icon>
     </Button>
   );
 };

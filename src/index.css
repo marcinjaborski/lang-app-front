@@ -181,11 +181,25 @@ body {
 .editorPanel {
   width: 40vw;
   height: fit-content;
-  background-color: #ffffff;
   margin: auto;
   margin-top: 100px; /* maybe 100px padding on content selector instead? */
   border-width: 0px 1px 0px 1px;
   border-style: solid;
   border-color: #dddddd;
   padding: 12px 24px 12px 24px;
+}
+
+code {
+  font-family: monospace;
+  background-color: #eee;
+  padding: 3px;
+}
+
+.editorButtonActive {
+  background-color: tomato;
+  width: 10px;
+  height: 10px;
+}
+.editorIcon {
+  padding: 5px;
 }
