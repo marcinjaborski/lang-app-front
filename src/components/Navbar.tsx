@@ -1,18 +1,14 @@
 import React from "react";
+import { NavbarStyled } from "./styles/Navbar.styled";
 import MenuButton from "./MenuButton";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
-import { faFileLines } from "@fortawesome/free-solid-svg-icons";
-import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { faBrain } from "@fortawesome/free-solid-svg-icons";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useLocation } from 'react-router-dom';
+import { faHouse, faFileLines, faFileCirclePlus, faBrain, faCog, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
-  if (location.pathname === '/login') return (<></>);
+  if (location.pathname === "/login") return <></>;
   return (
-    <nav className="navbar">
+    <NavbarStyled>
       <div className="topButtons">
         <MenuButton link="/" icon={faHouse} />
         <MenuButton link="/" icon={faFileLines} />
@@ -23,7 +19,7 @@ const Navbar = () => {
         <MenuButton link="/" icon={faCog} />
         <MenuButton link="/" icon={faUser} />
       </div>
-    </nav>
+    </NavbarStyled>
   );
 };
 
