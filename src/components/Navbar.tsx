@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
-  if (location.pathname === "/login") return <></>;
+  if (location.pathname === "/login" || location.pathname === "/register") return <></>;
   return (
     <NavbarStyled>
       <div className="topButtons">
@@ -17,7 +17,7 @@ const Navbar = () => {
       </div>
       <div className="bottomButtons">
         <MenuButton link="/" icon={faCog} />
-        <MenuButton link="/" icon={faUser} />
+        <MenuButton link="/register" icon={faUser} />
       </div>
     </NavbarStyled>
   );
