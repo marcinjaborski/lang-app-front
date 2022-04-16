@@ -1,3 +1,4 @@
+import React from "react";
 import NotesGroup from "./NotesGroup";
 import useFetch from "../useFetch";
 
