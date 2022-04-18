@@ -4,6 +4,7 @@ import LoginInput from "./LoginInput";
 import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import LoginButton from "./LoginButton";
 import { useNavigate } from "react-router-dom";
+import cookie from "react-cookies";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,12 +16,14 @@ const Login = () => {
     const user = { username, password };
     fetch("http://localhost:5000/login", {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
     })
       .then((res) => {
-        console.log(res)
-        navigate("/");
+        return res.json();
+      })
+      .then((data) => {
+        cookie.save("token", data.token, { path: "/" });
       })
       .catch((err) => {});
   };
