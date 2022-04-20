@@ -4,13 +4,65 @@ import { Editable, withReact, useSlate, Slate } from "slate-react";
 import { Editor, Transforms, createEditor, Element as SlateElement } from "slate";
 import { withHistory } from "slate-history";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBold, faUnderline, faItalic, faCode } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBold,
+  faUnderline,
+  faItalic,
+  faCode,
+  fa1,
+  fa2,
+  faQuoteLeft,
+  faListOl,
+  faList,
+  faAlignLeft,
+  faAlignCenter,
+  faAlignRight,
+  faAlignJustify,
+} from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+
+// TODO : move those styles and components out of this file
+
+// #region STYLED COMPONENTS
+
+const ButtonStyled = styled.span`
+  background-color: ${(props) => (props.active ? "coral" : "white")};
+`;
+
+const IconStyled = styled.span`
+  padding: 5px;
+`;
+
+const EditorPanelStyled = styled.div`
+  width: 40vw;
+  height: fit-content;
+  margin: auto;
+  margin-top: 100px; /* maybe 100px padding on content selector instead? */
+  border-width: 0px 1px 0px 1px;
+  border-style: solid;
+  border-color: #dddddd;
+  padding: 12px 24px 12px 24px;
+`;
+
+const CodeStyled = styled.code`
+  font-family: monospace;
+  background-color: #eee;
+  padding: 3px;
+`;
+
+const BlockquoteStyled = styled.blockquote`
+  background-color: #eee;
+  padding: 3px;
+  font-style: italic;
+`;
+
+//#endregion
 
 export const Button = ({ active, onClick, children }) => {
   return (
-    <span className={active ? "editorButtonActive" : "editorButtonInactive"} onClick={onClick}>
+    <ButtonStyled active={active} onClick={onClick}>
       {children}
-    </span>
+    </ButtonStyled>
   );
 };
 
@@ -20,9 +72,9 @@ export const Toolbar = (props) => {
 
 export const Icon = ({ icon }) => {
   return (
-    <span className="editorIcon">
+    <IconStyled className="editorIcon">
       <FontAwesomeIcon icon={icon}></FontAwesomeIcon>
-    </span>
+    </IconStyled>
   );
 };
 
@@ -36,29 +88,33 @@ const HOTKEYS = {
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 
+// TODO : still doesn't work as I would want it to.
+// - manually switching off lists is awkward
+// - shift enter doesn't work like it is supposed to (at least in quotes)
+// - quotes go all the way left, code doesn't. perhaps its okay like that?
+
 const RichTextExample = () => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   return (
-    <div className="editorPanel">
+    <EditorPanelStyled>
       <Slate editor={editor} value={initialValue}>
         <Toolbar>
           <MarkButton format="bold" icon={faBold} />
           <MarkButton format="italic" icon={faItalic} />
           <MarkButton format="underline" icon={faUnderline} />
           <MarkButton format="code" icon={faCode} />
-          {/* TODO - finish blockbuttons */}
-          {/* <BlockButton format="heading-one" icon="looks_one" />
-          <BlockButton format="heading-two" icon="looks_two" />
-          <BlockButton format="block-quote" icon="format_quote" />
-          <BlockButton format="numbered-list" icon="format_list_numbered" />
-          <BlockButton format="bulleted-list" icon="format_list_bulleted" />
-          <BlockButton format="left" icon="format_align_left" />
-          <BlockButton format="center" icon="format_align_center" />
-          <BlockButton format="right" icon="format_align_right" />
-          <BlockButton format="justify" icon="format_align_justify" /> */}
+          <BlockButton format="heading-one" icon={fa1} />
+          <BlockButton format="heading-two" icon={fa2} />
+          <BlockButton format="block-quote" icon={faQuoteLeft} />
+          <BlockButton format="numbered-list" icon={faListOl} />
+          <BlockButton format="bulleted-list" icon={faList} />
+          <BlockButton format="left" icon={faAlignLeft} />
+          <BlockButton format="center" icon={faAlignCenter} />
+          <BlockButton format="right" icon={faAlignRight} />
+          <BlockButton format="justify" icon={faAlignJustify} />
         </Toolbar>
         <Editable
           renderElement={renderElement}
@@ -77,7 +133,7 @@ const RichTextExample = () => {
           }}
         />
       </Slate>
-    </div>
+    </EditorPanelStyled>
   );
 };
 
@@ -145,9 +201,9 @@ const Element = ({ attributes, children, element }) => {
   switch (element.type) {
     case "block-quote":
       return (
-        <blockquote style={style} {...attributes}>
+        <BlockquoteStyled style={style} {...attributes}>
           {children}
-        </blockquote>
+        </BlockquoteStyled>
       );
     case "bulleted-list":
       return (
@@ -194,7 +250,7 @@ const Leaf = ({ attributes, children, leaf }) => {
   }
 
   if (leaf.code) {
-    children = <code>{children}</code>;
+    children = <CodeStyled>{children}</CodeStyled>;
   }
 
   if (leaf.italic) {
@@ -213,12 +269,12 @@ const BlockButton = ({ format, icon }) => {
   return (
     <Button
       active={isBlockActive(editor, format, TEXT_ALIGN_TYPES.includes(format) ? "align" : "type")}
-      onMouseDown={(event) => {
+      onClick={(event) => {
         event.preventDefault();
         toggleBlock(editor, format);
       }}
     >
-      <Icon>{icon}</Icon>
+      <Icon icon={icon}></Icon>
     </Button>
   );
 };
