@@ -56,15 +56,38 @@ const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 // - manually switching off lists is awkward
 // - shift enter doesn't work like it is supposed to (at least in quotes)
 // - quotes go all the way left, code doesn't. perhaps its okay like that?
+// - blocks of code and quotes across multiple lines would be nice
 
 const RichTextExample = () => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
+  const initialValue = useMemo(() => {
+    return (
+      JSON.parse(localStorage.getItem("content")) || [
+        {
+          type: "paragraph",
+          children: [{ text: "" }],
+        },
+      ]
+    );
+  }, []);
+
   return (
     <EditorPanelStyled>
-      <Slate editor={editor} value={initialValue}>
+      <Slate
+        editor={editor}
+        value={initialValue}
+        onChange={(value) => {
+          const isAstChange = editor.operations.some((op) => "set_selection" !== op.type);
+          if (isAstChange) {
+            // Save the value to Local Storage.
+            const content = JSON.stringify(value);
+            localStorage.setItem("content", content);
+          }
+        }}
+      >
         <Toolbar>
           <MarkButton format="bold" icon={faBold} />
           <MarkButton format="italic" icon={faItalic} />
@@ -258,11 +281,11 @@ const MarkButton = ({ format, icon }) => {
   );
 };
 
-const initialValue = [
-  {
-    type: "paragraph",
-    children: [{ text: "" }],
-  },
-];
+// const initialValue = [
+//   {
+//     type: "paragraph",
+//     children: [{ text: "" }],
+//   },
+// ];
 
 export default RichTextExample;
