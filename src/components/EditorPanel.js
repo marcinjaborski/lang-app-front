@@ -19,50 +19,14 @@ import {
   faAlignRight,
   faAlignJustify,
 } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
 
-// TODO : move those styles and components out of this file
-
-// #region STYLED COMPONENTS
-
-const ButtonStyled = styled.span`
-  background-color: ${(props) => (props.active ? "coral" : "white")};
-`;
-
-const IconStyled = styled.span`
-  padding: 5px;
-`;
-
-const EditorPanelStyled = styled.div`
-  width: 40vw;
-  height: fit-content;
-  margin: auto;
-  margin-top: 100px; /* maybe 100px padding on content selector instead? */
-  border-width: 0px 1px 0px 1px;
-  border-style: solid;
-  border-color: #dddddd;
-  padding: 12px 24px 12px 24px;
-`;
-
-const CodeStyled = styled.code`
-  font-family: monospace;
-  background-color: #eee;
-  padding: 3px;
-`;
-
-const BlockquoteStyled = styled.blockquote`
-  background-color: #eee;
-  padding: 3px;
-  font-style: italic;
-`;
-
-//#endregion
+import { EditorPanelStyled } from "./styles/EditorPanel.styled";
 
 export const Button = ({ active, onClick, children }) => {
   return (
-    <ButtonStyled active={active} onClick={onClick}>
+    <span className={active ? "editorButtonActive" : "editorBuuttonInactive"} active={active} onClick={onClick}>
       {children}
-    </ButtonStyled>
+    </span>
   );
 };
 
@@ -72,9 +36,9 @@ export const Toolbar = (props) => {
 
 export const Icon = ({ icon }) => {
   return (
-    <IconStyled className="editorIcon">
+    <span className="editorIcon">
       <FontAwesomeIcon icon={icon}></FontAwesomeIcon>
-    </IconStyled>
+    </span>
   );
 };
 
@@ -201,9 +165,9 @@ const Element = ({ attributes, children, element }) => {
   switch (element.type) {
     case "block-quote":
       return (
-        <BlockquoteStyled style={style} {...attributes}>
+        <blockquote style={style} {...attributes}>
           {children}
-        </BlockquoteStyled>
+        </blockquote>
       );
     case "bulleted-list":
       return (
@@ -250,7 +214,7 @@ const Leaf = ({ attributes, children, leaf }) => {
   }
 
   if (leaf.code) {
-    children = <CodeStyled>{children}</CodeStyled>;
+    children = <code>{children}</code>;
   }
 
   if (leaf.italic) {
