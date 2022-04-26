@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import isHotkey from "is-hotkey";
 import { Editable, withReact, useSlate, Slate } from "slate-react";
 import { Editor, Transforms, createEditor, Element as SlateElement } from "slate";
@@ -19,12 +19,11 @@ import {
   faAlignRight,
   faAlignJustify,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { EditorPanelStyled } from "./styles/EditorPanel.styled";
 
-export const Button = ({ active, onClick, children }) => {
+export const Button = ({ active: isActive, onClick, children }) => {
   return (
-    <span className={active ? "editorButtonActive" : "editorBuuttonInactive"} active={active} onClick={onClick}>
+    <span className={!!isActive ? "editorButtonActive" : "editorBuuttonInactive"} active={isActive} onClick={onClick}>
       {children}
     </span>
   );
@@ -58,27 +57,55 @@ const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 // - quotes go all the way left, code doesn't. perhaps its okay like that?
 // - blocks of code and quotes across multiple lines would be nice
 
+/*
+fetch('http://example.com/movies.json')
+  .then(response => response.json())
+  .then(data => console.log(data));
+*/
+const loadNote = async () => {
+  console.log("fetching...");
+  return fetch("http://localhost:5000/editorNotes")
+    .then((res) => {
+      if (res.ok) return res.json();
+      else console.log("res was not ok");
+    })
+    .then((data) => {
+      console.log("fetched sucessfully");
+      console.log(data);
+      return [
+        {
+          type: data[0].type,
+          children: data[0].children,
+        },
+      ];
+    });
+};
+
 const RichTextExample = () => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const [note, setNote] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "default" }],
+    },
+  ]);
 
-  const initialValue = useMemo(() => {
-    return (
-      JSON.parse(localStorage.getItem("content")) || [
-        {
-          type: "paragraph",
-          children: [{ text: "" }],
-        },
-      ]
-    );
+  useEffect(() => {
+    console.log("useeffect call");
+    loadNote().then((note) => {
+      console.log("loaded note: ");
+      console.log(note);
+      setNote(note); // TODO : THIS DOES NOT TRIGGER RE-RENDER
+    });
   }, []);
 
   return (
     <EditorPanelStyled>
       <Slate
         editor={editor}
-        value={initialValue}
+        value={note}
         onChange={(value) => {
           const isAstChange = editor.operations.some((op) => "set_selection" !== op.type);
           if (isAstChange) {
@@ -255,7 +282,7 @@ const BlockButton = ({ format, icon }) => {
   const editor = useSlate();
   return (
     <Button
-      active={isBlockActive(editor, format, TEXT_ALIGN_TYPES.includes(format) ? "align" : "type")}
+      isActive={isBlockActive(editor, format, TEXT_ALIGN_TYPES.includes(format) ? "align" : "type")}
       onClick={(event) => {
         event.preventDefault();
         toggleBlock(editor, format);
@@ -270,7 +297,7 @@ const MarkButton = ({ format, icon }) => {
   const editor = useSlate();
   return (
     <Button
-      active={isMarkActive(editor, format)}
+      isActive={isMarkActive(editor, format)}
       onClick={(event) => {
         event.preventDefault();
         toggleMark(editor, format);

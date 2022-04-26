@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import EditorPanel from "./components/EditorPanel";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Test from "components/test";
 
 function App() {
   const [loadingApp, setLoadingApp] = useState(true);
