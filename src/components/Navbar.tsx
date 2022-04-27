@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className="topButtons">
         <MenuButton link="/" icon={faHouse} />
         <MenuButton link="/" icon={faFileLines} />
-        <MenuButton link="/editor" icon={faFileCirclePlus} />
+        <MenuButton link="/editor/1" icon={faFileCirclePlus} /> // TODO : change url
         <MenuButton link="/" onClick={is_logged} icon={faBrain} />
       </div>
       <div className="bottomButtons">

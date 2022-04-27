@@ -20,6 +20,7 @@ import {
   faAlignJustify,
 } from "@fortawesome/free-solid-svg-icons";
 import { EditorPanelStyled } from "./styles/EditorPanel.styled";
+import { useParams } from "react-router-dom";
 
 export const Button = ({ active: isActive, onClick, children }) => {
   return (
@@ -57,14 +58,10 @@ const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 // - quotes go all the way left, code doesn't. perhaps its okay like that?
 // - blocks of code and quotes across multiple lines would be nice
 
-/*
-fetch('http://example.com/movies.json')
-  .then(response => response.json())
-  .then(data => console.log(data));
-*/
-const loadNote = async () => {
+const loadNote = async (id) => {
   console.log("fetching...");
-  return fetch("http://localhost:5000/editorNotes/1")
+  const url = `${"http://localhost:5000/editorNotes"}/${id}`;
+  return fetch(url)
     .then((res) => {
       if (res.ok) return res.json();
       else console.log("res was not ok");
@@ -75,14 +72,15 @@ const loadNote = async () => {
     });
 };
 
-const saveNote = (editor, note) => {
+const saveNote = (editor, note, id) => {
   // TODO : savenote should be called automatically, after say.. 3 seconds of no interaction.
   // the commented-out code below was useful for ignoring selection.
   // Now it was breaking things (no idea why) when saving works on a button click
 
   // const isAstChange = editor.operations.some((op) => "set_selection" !== op.type);
   // if (isAstChange) {
-  fetch("http://localhost:5000/editorNotes/1", {
+  const url = `${"http://localhost:5000/editorNotes"}/${id}`;
+  fetch(url, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -99,18 +97,24 @@ const RichTextExample = () => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const urlParams = useParams(); // for params.id -> id from URL
   const initialValue = [
     {
       type: "paragraph",
       children: [{ text: "Loading ..." }],
+      // loading example in there:
+      // https://reactrouter.com/docs/en/v6/getting-started/overview#reading-url-parameters
     },
   ];
 
   useEffect(() => {
-    loadNote().then((note) => {
-      editor.children = note;
-      editor.onChange();
-    });
+    // ? if id === new create a new note with new id in the database?
+    loadNote(urlParams.id)
+      .then((note) => {
+        editor.children = note;
+        editor.onChange();
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -135,7 +139,7 @@ const RichTextExample = () => {
           <BlockButton format="right" icon={faAlignRight} />
           <BlockButton format="justify" icon={faAlignJustify} />
         </Toolbar>
-        <Button onClick={() => saveNote(editor, editor.children)}>SAVE</Button>
+        <Button onClick={() => saveNote(editor, editor.children, urlParams.id)}>SAVE</Button>
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}

@@ -194,6 +194,27 @@
         }
       ],
       "id": 1
+    },
+    {
+      "note": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "text": "Loaded from Database."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "text": "And saved right after!"
+            }
+          ]
+        }
+      ],
+      "id": 2
     }
   ]
 }

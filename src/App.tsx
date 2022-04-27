@@ -5,7 +5,6 @@ import Home from "./components/Home";
 import EditorPanel from "./components/EditorPanel";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Test from "components/test";
 
 function App() {
   const [loadingApp, setLoadingApp] = useState(true);
@@ -25,7 +24,6 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/editor" element={<EditorPanel />} />
             <Route path="/editor/:id" element={<EditorPanel />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
