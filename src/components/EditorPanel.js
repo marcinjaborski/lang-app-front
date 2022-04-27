@@ -64,40 +64,52 @@ fetch('http://example.com/movies.json')
 */
 const loadNote = async () => {
   console.log("fetching...");
-  return fetch("http://localhost:5000/editorNotes")
+  return fetch("http://localhost:5000/editorNotes/1")
     .then((res) => {
       if (res.ok) return res.json();
       else console.log("res was not ok");
     })
     .then((data) => {
-      console.log("fetched sucessfully");
-      console.log(data);
-      return [
-        {
-          type: data[0].type,
-          children: data[0].children,
-        },
-      ];
+      console.log("Fetched successfully.");
+      return data.note;
     });
+};
+
+const saveNote = (editor, note) => {
+  // TODO : savenote should be called automatically, after say.. 3 seconds of no interaction.
+  // the commented-out code below was useful for ignoring selection.
+  // Now it was breaking things (no idea why) when saving works on a button click
+
+  // const isAstChange = editor.operations.some((op) => "set_selection" !== op.type);
+  // if (isAstChange) {
+  fetch("http://localhost:5000/editorNotes/1", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ note: note }),
+  })
+    .then(() => console.log("Saved successfully."))
+    .catch((err) => console.log(err));
+
+  // }
 };
 
 const RichTextExample = () => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-  const [note, setNote] = useState([
+  const initialValue = [
     {
       type: "paragraph",
-      children: [{ text: "default" }],
+      children: [{ text: "Loading ..." }],
     },
-  ]);
+  ];
 
   useEffect(() => {
-    console.log("useeffect call");
     loadNote().then((note) => {
-      console.log("loaded note: ");
-      console.log(note);
-      setNote(note); // TODO : THIS DOES NOT TRIGGER RE-RENDER
+      editor.children = note;
+      editor.onChange();
     });
   }, []);
 
@@ -105,15 +117,8 @@ const RichTextExample = () => {
     <EditorPanelStyled>
       <Slate
         editor={editor}
-        value={note}
-        onChange={(value) => {
-          const isAstChange = editor.operations.some((op) => "set_selection" !== op.type);
-          if (isAstChange) {
-            // Save the value to Local Storage.
-            const content = JSON.stringify(value);
-            localStorage.setItem("content", content);
-          }
-        }}
+        value={initialValue}
+        // onChange={(value) => saveNote(editor, value)} // temp: now click to save
       >
         <Toolbar>
           <MarkButton format="bold" icon={faBold} />
@@ -130,6 +135,7 @@ const RichTextExample = () => {
           <BlockButton format="right" icon={faAlignRight} />
           <BlockButton format="justify" icon={faAlignJustify} />
         </Toolbar>
+        <Button onClick={() => saveNote(editor, editor.children)}>SAVE</Button>
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}

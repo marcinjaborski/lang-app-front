@@ -45,9 +45,155 @@
   ],
   "editorNotes": [
     {
-      "id": 1,
-      "type": "paragraph",
-      "children": [{ "text": "loaded from db" }]
+      "note": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "text": "Loaded from Database."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "text": "Indeed nicely "
+            },
+            {
+              "text": "formatted",
+              "bold": true
+            },
+            {
+              "text": " "
+            },
+            {
+              "text": "text",
+              "underline": true
+            },
+            {
+              "text": " "
+            },
+            {
+              "text": "you",
+              "italic": true
+            },
+            {
+              "text": " got there "
+            },
+            {
+              "text": "man",
+              "code": true
+            },
+            {
+              "text": "."
+            }
+          ]
+        },
+        {
+          "type": "heading-one",
+          "children": [
+            {
+              "text": "firstly,"
+            }
+          ]
+        },
+        {
+          "type": "heading-two",
+          "children": [
+            {
+              "text": "secondly,"
+            }
+          ]
+        },
+        {
+          "type": "block-quote",
+          "children": [
+            {
+              "text": "Who died is dead."
+            }
+          ]
+        },
+        {
+          "type": "numbered-list",
+          "children": [
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "text": "nice list"
+                }
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "text": "nicer list"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulleted-list",
+          "children": [
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "text": "nicest list"
+                }
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "text": "nicestest list"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "text": "left"
+            }
+          ],
+          "align": "left"
+        },
+        {
+          "type": "paragraph",
+          "align": "right",
+          "children": [
+            {
+              "text": "right"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "align": "center",
+          "children": [
+            {
+              "text": "center"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "text": "justified. Yeah, let's see if it really is justified"
+            }
+          ],
+          "align": "justify"
+        }
+      ],
+      "id": 1
     }
   ]
 }
